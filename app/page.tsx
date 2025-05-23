@@ -6,13 +6,21 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 
+interface Task {
+  id: number;
+  text: string;
+  completed: boolean;
+}
+
 export default function TodoApp() {
-  const [tasks, setTasks] = useState([])
+  const [tasks, setTasks] = useState<Task[]>([])
   const [taskInput, setTaskInput] = useState('')
 
   useEffect(() => {
-    const storedTasks = JSON.parse(localStorage.getItem('tasks')) || []
-    setTasks(storedTasks)
+    const storedTasks = localStorage.getItem('tasks')
+    if (storedTasks) {
+      setTasks(JSON.parse(storedTasks))
+    }
   }, [])
 
   useEffect(() => {
